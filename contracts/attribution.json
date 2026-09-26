@@ -1,0 +1,8 @@
+{
+  "watermark": "阿祖不看 TVC · demyth.info",
+  "author": "阿祖不看 TVC",
+  "xiaohongshu": "阿祖不看 TVC",
+  "site": "https://demyth.info",
+  "contact": "Lawyif@163.com",
+  "note": "报告页面与打印版都必须显示 watermark。**改这一处，所有报告跟着改** —— 2026-09-13 曾因为两个 Skill 各自硬编码这个字符串，把其中一份写成「阿祖不看红绿灯」，而校验器与渲染器同时断言那个错串，每跑一次就自洽通过一次。"
+}
