@@ -80,7 +80,7 @@ git clone https://github.com/thePlannerIvan/planners-report-kit.git ~/.claude/sk
 环境要求：**Node.js 20+**，零第三方依赖。**不依赖 DSH** —— 普通 CLI，任何 runtime 都能跑。
 
 ```bash
-node evals/run.mjs   # 装配 3 组 + 离线契约 8 条
+node evals/run.mjs   # 装配 + 离线契约；条数由 runner 自己数并打印
 ```
 
 ## 典型 prompt

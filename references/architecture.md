@@ -20,7 +20,7 @@
 | `contracts/attribution.json` | **署名水印的唯一来源** | 水印字符串、作者、站点、邮箱 | 被管线与校验器读取；`--attribution` 可覆盖（fork 用） | 不是模板；不决定水印长什么样、放哪里 |
 | `scripts/render-report.mjs` | 装配管线 | `{{REPORT_STYLE}}` / `{{REPORT_CONTENT}}` 两个落点的替换、`--placeholders` 的键值替换、水印注入（含兜底）、**未解析占位符就不写盘** | CLI（见 SKILL.md） | 不生成内容、不选图表、不评价报告好坏 |
 | `scripts/validate-report.mjs` | **离线契约校验（唯一入口）** | 单文件的判据（外部脚本/样式/字体/iframe）、未解析占位符、水印存在、打印样式、`--require` 的必需标记 | CLI，输出 JSON，退出码非零即不合规 | 不评价内容质量；不知道任何一家报告的业务结构 |
-| `evals/run.mjs` | 判据的可执行形态 | 11 条回归：装配 3 组 + 离线契约 8 条 | `node evals/run.mjs` | 不是规格来源 |
+| `evals/run.mjs` | 判据的可执行形态 | 装配与离线契约的回归。**条数由 runner 自己数并打印，本文件不复述数字** | `node evals/run.mjs` | 不是规格来源 |
 | `GOTCHAS.md` | 候选经验 | 现象／原因／行为修正／证据／状态 | 人读 | 不存过程日志 |
 
 ## 缝：两份消费方

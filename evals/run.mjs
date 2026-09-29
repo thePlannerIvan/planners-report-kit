@@ -20,8 +20,10 @@ const ATTRIBUTION = JSON.parse(readFileSync(join(ROOT, 'contracts', 'attribution
 const WATERMARK = ATTRIBUTION.watermark;
 
 let failed = 0;
-const ok = m => console.log(`  ✓ ${m}`);
-const bad = m => { failed++; console.log(`  ✗ ${m}`); };
+// 断言条数自己数，不靠文档复述（文档复述过的数字已经漂过）。
+let assertions = 0;
+const ok = m => { assertions++; console.log(`  ✓ ${m}`); };
+const bad = m => { failed++; assertions++; console.log(`  ✗ ${m}`); };
 const run = (script, args) => {
   const r = spawnSync(process.execPath, [script, ...args], { encoding: 'utf8' });
   let parsed = null;
@@ -120,5 +122,5 @@ const cases = [
 }
 
 rmSync(dir, { recursive: true, force: true });
-console.log(failed ? `\n${failed} 条失败` : '\n全部通过（装配 3 组 + 离线契约 8 条）');
+console.log(failed ? `\n${assertions} 条断言，${failed} 条失败` : `\n全部通过（${assertions} 条断言：装配 3 组 + 离线契约 ${assertions - 3} 条）`);
 process.exit(failed ? 1 : 0);
