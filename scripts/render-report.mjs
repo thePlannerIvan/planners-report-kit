@@ -73,7 +73,26 @@ if (watermark) {
   }
 }
 
-// 4) 未解析的占位符：不写盘
+// 4) 外部依赖：与 validate-report.mjs 用同一组判据。没给 --allow-external 就不写盘 ——
+//    「装配成功」不等于「离线合规」，把这道闸放在写盘前，单独用本工具的人不会漏。
+const externalRules = [
+  [/<script[^>]+src\s*=/i, 'external_script', '报告里有外部脚本'],
+  [/<link[^>]+rel\s*=\s*["']?stylesheet/i, 'external_stylesheet', '报告里有外部样式表'],
+  [/@import\s+(?:url\()?["']?https?:/i, 'css_import', 'CSS 里有外部 @import'],
+  [/url\(\s*["']?https?:/i, 'css_url', 'CSS 里有外部 url()'],
+  [/<iframe[^>]+src\s*=\s*["']?https?:/i, 'external_iframe', '报告里有外部 iframe'],
+];
+const allowExternal = Boolean(args['allow-external']);
+const externals = externalRules
+  .filter(([pattern]) => pattern.test(html))
+  .map(([, code, message]) => ({ code, message }));
+if (externals.length && !allowExternal) {
+  console.log(JSON.stringify({ valid: false, error: 'external_dependency', externals, written: false }, null, 2));
+  console.error(`外部依赖：${externals.map((e) => e.message).join(' / ')} —— report.html 未写盘（确实要外链就加 --allow-external）`);
+  process.exit(1);
+}
+
+// 5) 未解析的占位符：不写盘
 const unresolved = [...new Set((html.match(/\{\{[A-Z0-9_]+\}\}/g) ?? []))];
 if (unresolved.length) {
   // stdout 永远是 JSON 载荷（与 validate-report.mjs 一致），人读的话在 stderr
